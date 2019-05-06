@@ -1,2 +1,11 @@
 server:
   port: 8081
+
+spring:
+  application:
+    name: api-server
+
+
+eureka:
+  client:
+    eureka-server-u-r-l-context:
