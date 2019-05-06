@@ -5,7 +5,6 @@ spring:
   application:
     name: api-server
 
-
 eureka:
   client:
-    eureka-server-u-r-l-context:
+    service-url: http://localhost:7001/eureka/
