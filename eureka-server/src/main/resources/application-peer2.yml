@@ -1,13 +1,13 @@
 server:
-  port: 7001
+  port: 7002
 
 spring:
   application:
-    name: eureka-server
+    name: eureka-server-peer2
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: peer2
   client:
     #表示是否将自己注册到Eureka Server，默认为true。
     register-with-eureka: false
@@ -15,4 +15,4 @@ eureka:
     fetch-registry: false
     service-url:
       #设置与Eureka Server交互的地址，查询服务和注册服务都需要依赖这个地址。默认是http://localhost:8761/eureka ；多个地址可使用 , 分隔。
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://peer1:7001/eureka/,http://peer3:7003/eureka/
