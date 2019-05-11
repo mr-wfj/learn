@@ -10,11 +10,16 @@
  */
 package com.wfj.learn.apiserver.controller;
 
+import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -34,5 +39,22 @@ public class ApiController {
     public String Version() {
         logger.info("api.version={}", "V1.0");
         return "V1.0";
+    }
+
+    @Autowired
+    private Map<String, AliPayConfig> payConfigs = new ConcurrentHashMap<>();
+
+
+    @GetMapping("/config")
+    public Object config() {
+        logger.info("api.version={}", "V1.0");
+
+        AliPayConfig defaultConfig = payConfigs.get("alipay.default");
+
+        logger.info("alipay.default.appId={}", defaultConfig.getAppId());
+        AliPayConfig depositConfig = payConfigs.get("alipay.deposit");
+        logger.info("alipay.deposit.appId={}", depositConfig.getAppId());
+
+        return payConfigs;
     }
 }

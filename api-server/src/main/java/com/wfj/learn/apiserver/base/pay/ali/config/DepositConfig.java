@@ -1,22 +1,16 @@
 package com.wfj.learn.apiserver.base.pay.ali.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 /**
  * @Author: WFJ
  * @Date: 2019/4/30 15:43
  * @Description:
  */
-public class DepositConfig implements AliPayConfig {
+@Component("alipay.deposit")
+@ConfigurationProperties(prefix = "alipay.deposit")
+public class DepositConfig extends AliPayConfig {
 
-    private String appId;
-    private String appPrivateKey;
-    private String charset;
-    private String alipayPublicKey;
-    private String notifyUrl;
-    private String serverUrl;
-
-    @Override
-    public String getId() {
-        return appId;
-    }
 
 }
