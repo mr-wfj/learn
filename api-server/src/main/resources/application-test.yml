@@ -1,6 +1,9 @@
 server:
   port: 8081
 
+logging:
+  config: classpath:logback-test.xml
+
 alipay:
   default:
     appId:123456

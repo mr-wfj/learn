@@ -12,7 +12,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
 
     <!--用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量。-->
     <!-- 定义日志的根目录 -->
-    <property name="LOG_HOME" value="/app/log/"/>
+    <property name="LOG_HOME" value="/home/app/log"/>
     <!-- 定义日志文件名称 -->
     <property name="LOG_NAME" value="api"></property>
 
@@ -66,14 +66,12 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         表示当前logger的appender-ref和rootLogger的appender-ref都有效
     -->
     <!-- mybatis log configure -->
+    
     <logger name="dao" level="DEBUG"/>
 
-    <!--
-    root与logger是父子关系，没有特别定义则默认为root，任何一个类只会和一个logger对应，
-    要么是定义的logger，要么是root，判断的关键在于找到这个logger，然后判断这个logger的appender和level。
-    -->
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="stdout"/>
         <appender-ref ref="appLogAppender"/>
     </root>
+
 </configuration>

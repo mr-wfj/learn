@@ -10,6 +10,8 @@
  */
 package com.wfj.learn.apiserver.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,15 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
  * 〈〉
  *
  * @author mrwfj
- * @create 2019/5/6
+ * @date 2019/5/6
  * @since 1.0.0
  */
 @RestController
 @RequestMapping("/api")
 public class ApiController {
-    
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @GetMapping("/version")
     public String Version() {
+        logger.info("api.version={}", "V1.0");
         return "V1.0";
     }
 }

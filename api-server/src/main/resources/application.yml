@@ -6,3 +6,7 @@ spring:
   jackson:
     date-format:  yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+logging:
+  config: classpath:logback-dev.xml
+  #path: D:/heome/app2/log
+  #file: D:/heome/app2/log/test.log # 在/var/logs目录下生成test.log文件
