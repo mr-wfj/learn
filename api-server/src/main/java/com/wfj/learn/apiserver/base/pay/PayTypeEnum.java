@@ -8,7 +8,7 @@ public enum PayTypeEnum {
     /**
      * 钱包
      */
-    WALLER_PAY("waller_pay", "钱包"),
+    WALLET_PAY("wallet_pay", "钱包"),
 
     /**
      * 支付宝

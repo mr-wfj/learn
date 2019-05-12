@@ -3,7 +3,7 @@ package com.wfj.learn.apiserver.base.pay;
 /**
  * @Author: WFJ
  * @Date: 2019/4/28 11:11
- * @Description: 支付
+ * @Description: 支付-常量
  */
 public final class PayConst {
     private PayConst() {
