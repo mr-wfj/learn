@@ -3,8 +3,8 @@ package com.wfj.learn.apiserver.base.pay.wechat;
 
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayConfig;
-import com.wfj.learn.apiserver.base.bean.ResultCode;
-import com.wfj.learn.apiserver.base.bean.ResultJson;
+import com.wfj.learn.apiserver.base.result.ResultCode;
+import com.wfj.learn.apiserver.base.result.ResultJson;
 import com.wfj.learn.apiserver.base.exception.CustomException;
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.order.OrderTypeEnum;

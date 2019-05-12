@@ -1,4 +1,4 @@
-package com.wfj.learn.apiserver.base.bean;
+package com.wfj.learn.apiserver.base.result;
 
 import lombok.Data;
 

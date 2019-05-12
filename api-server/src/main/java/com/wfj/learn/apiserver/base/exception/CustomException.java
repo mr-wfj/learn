@@ -1,6 +1,6 @@
 package com.wfj.learn.apiserver.base.exception;
 
-import com.wfj.learn.apiserver.base.bean.ResultJson;
+import com.wfj.learn.apiserver.base.result.ResultJson;
 import lombok.Getter;
 
 /**

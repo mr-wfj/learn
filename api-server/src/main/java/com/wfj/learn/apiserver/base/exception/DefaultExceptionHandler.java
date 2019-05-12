@@ -1,8 +1,8 @@
 package com.wfj.learn.apiserver.base.exception;
 
 
-import com.wfj.learn.apiserver.base.bean.ResultCode;
-import com.wfj.learn.apiserver.base.bean.ResultJson;
+import com.wfj.learn.apiserver.base.result.ResultCode;
+import com.wfj.learn.apiserver.base.result.ResultJson;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * @author WFJ
  * 异常处理类
- * controller层异常无法捕获处理，需要自己处理
+ * controller 层异常无法捕获处理，需要自己处理
  */
 @RestControllerAdvice
 @Slf4j
