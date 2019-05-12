@@ -1,15 +1,13 @@
 package com.wfj.learn.apiserver.base.pay.wechat.config;
 
 
-import com.github.wxpay.sdk.WXPayConfig;
 import com.wfj.learn.apiserver.base.pay.PayConst;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.IWXPayDomain;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPayConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -18,35 +16,19 @@ import java.util.Map;
  * @Description:
  */
 @Component(PayConst.WECHATPAY_DEPOSIT_ACCOUNT_BEAN)
-public abstract class DepositPayConfig extends WXPayConfig {
+public class DepositPayConfig extends WXPayConfig {
 
     @Autowired
     private Map<String, WeChatPayConfig> configs;
-
-    private WeChatPayConfig config = configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT);
-
-    /**
-     * certPath
-     */
-    private String certPath = config.getCertPath();
-
-    private byte[] certData;
-
-    public DepositPayConfig() throws Exception {
-        File file = new File(certPath);
-        InputStream certStream = new FileInputStream(file);
-        this.certData = new byte[(int) file.length()];
-        certStream.read(this.certData);
-        certStream.close();
-    }
 
     /**
      * 获取 App ID
      *
      * @return App ID
      */
+    @Override
     public String getAppID() {
-        return config.getAppId();
+        return configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT).getAppId();
     }
 
     /**
@@ -54,8 +36,9 @@ public abstract class DepositPayConfig extends WXPayConfig {
      *
      * @return Mch ID
      */
+    @Override
     public String getMchID() {
-        return config.getMchId();
+        return configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT).getMchId();
     }
 
     /**
@@ -63,8 +46,9 @@ public abstract class DepositPayConfig extends WXPayConfig {
      *
      * @return API密钥
      */
+    @Override
     public String getKey() {
-        return config.getAppKey();
+        return configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT).getAppKey();
     }
 
     /**
@@ -72,9 +56,31 @@ public abstract class DepositPayConfig extends WXPayConfig {
      *
      * @return 商户证书内容
      */
+    @Override
     public InputStream getCertStream() {
-        ByteArrayInputStream iputStream = new ByteArrayInputStream(this.certData);
+        File file = new File(configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT).getCertPath());
+
+        byte[] certData = new byte[200];
+        if (file.exists()) {
+
+            InputStream certStream = null;
+            try {
+                certStream = new FileInputStream(file);
+                certData = new byte[(int) file.length()];
+                certStream.read(certData);
+                certStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ByteArrayInputStream iputStream = new ByteArrayInputStream(certData);
         return iputStream;
+    }
+
+    @Override
+    public IWXPayDomain getWXPayDomain() {
+        return null;
     }
 
 }

@@ -1,7 +1,8 @@
 package com.wfj.learn.apiserver.base.pay.wechat.config;
 
-import com.github.wxpay.sdk.WXPayConfig;
 import com.wfj.learn.apiserver.base.pay.PayConst;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.IWXPayDomain;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPayConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,25 +15,24 @@ import java.util.Map;
  * @Description:
  */
 @Component(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN)
-public abstract class DefaultPayConfig extends WXPayConfig {
+public class DefaultPayConfig extends WXPayConfig {
 
     @Autowired
     private Map<String, WeChatPayConfig> configs;
 
-    private WeChatPayConfig config = configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT);
-
-
+    @Override
     public String getAppID() {
-        return config.getAppId();
+        return configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN).getAppId();
     }
 
+    @Override
     public String getMchID() {
-        return config.getMchId();
+        return configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN).getMchId();
     }
 
-
+    @Override
     public String getKey() {
-        return config.getAppKey();
+        return configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN).getAppKey();
     }
 
     /**
@@ -40,8 +40,9 @@ public abstract class DefaultPayConfig extends WXPayConfig {
      *
      * @return 商户证书内容
      */
+    @Override
     public InputStream getCertStream() {
-        File file = new File(config.getCertPath());
+        File file = new File(configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN).getCertPath());
 
         byte[] certData = new byte[200];
         if (file.exists()) {
@@ -59,6 +60,11 @@ public abstract class DefaultPayConfig extends WXPayConfig {
 
         ByteArrayInputStream iputStream = new ByteArrayInputStream(certData);
         return iputStream;
+    }
+
+    @Override
+    public IWXPayDomain getWXPayDomain() {
+        return null;
     }
 
 

@@ -1,8 +1,6 @@
 package com.wfj.learn.apiserver.base.pay.wechat;
 
 
-import com.github.wxpay.sdk.WXPay;
-import com.github.wxpay.sdk.WXPayConfig;
 import com.wfj.learn.apiserver.base.exception.CustomException;
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.order.OrderTypeEnum;
@@ -10,6 +8,8 @@ import com.wfj.learn.apiserver.base.order.OrderVO;
 import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPay;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPayConfig;
 import com.wfj.learn.apiserver.base.result.ResultCode;
 import com.wfj.learn.apiserver.base.result.ResultJson;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class WeChatPay implements BasePay {
     private Logger logger = LoggerFactory.getLogger(WeChatPay.class);
 
 
-    //@Autowired
+    @Autowired
     private Map<String, WXPayConfig> payConfigs = new ConcurrentHashMap<>();
 
     @Autowired
@@ -48,7 +48,7 @@ public class WeChatPay implements BasePay {
     public OrderVO pay(Order order) {
 
         WeChatPayConfig config = configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT);
-        WXPayConfig payConfig = payConfigs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT);
+        WXPayConfig payConfig = payConfigs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN);
 
         if (OrderTypeEnum.deposit_recharge.getCode().equals(order.getType())) {//押金
             config = configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT);

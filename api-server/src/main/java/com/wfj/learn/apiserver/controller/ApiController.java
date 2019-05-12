@@ -10,6 +10,8 @@
  */
 package com.wfj.learn.apiserver.controller;
 
+import com.wfj.learn.apiserver.base.order.Order;
+import com.wfj.learn.apiserver.base.pay.BasePayFactory;
 import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
 import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
 import com.wfj.learn.apiserver.base.result.ResultJson;
@@ -64,6 +66,21 @@ public class ApiController {
 
         logger.info("wechatpay.config:{}", weChatPayConfigMap);
 
-        return ResultJson.ok(weChatPayConfigMap);
+        return ResultJson.ok(weChatPayConfigMap.toString());
+    }
+
+
+    @Autowired
+    private BasePayFactory basePayFactory;
+
+    @GetMapping("/wechat/pay")
+    public ResultJson wechat_pay() {
+        logger.info("api.version={}", "V1.0");
+
+        Order order = Order.builder().build();
+        basePayFactory.getcontext("wechat").pay(order);
+        logger.info("wechatpay.config:{}", weChatPayConfigMap);
+
+        return ResultJson.ok(weChatPayConfigMap.toString());
     }
 }
