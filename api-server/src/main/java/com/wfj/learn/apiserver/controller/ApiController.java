@@ -11,6 +11,8 @@
 package com.wfj.learn.apiserver.controller;
 
 import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
+import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
+import com.wfj.learn.apiserver.base.result.ResultJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +44,26 @@ public class ApiController {
     }
 
     @Autowired
-    private Map<String, AliPayConfig> payConfigs = new ConcurrentHashMap<>();
+    private Map<String, AliPayConfig> aliPayConfigMap = new ConcurrentHashMap<>();
 
-
-    @GetMapping("/config")
-    public Object config() {
+    @GetMapping("/ali/config")
+    public ResultJson ali_config() {
         logger.info("api.version={}", "V1.0");
 
-        AliPayConfig defaultConfig = payConfigs.get("alipay.default");
+        logger.info("alipay.config:{}", aliPayConfigMap);
 
-        logger.info("alipay.default.appId={}", defaultConfig.getAppId());
-        AliPayConfig depositConfig = payConfigs.get("alipay.deposit");
-        logger.info("alipay.deposit.appId={}", depositConfig.getAppId());
+        return ResultJson.ok(aliPayConfigMap);
+    }
 
-        return payConfigs;
+    @Autowired
+    private Map<String, WeChatPayConfig> weChatPayConfigMap;
+
+    @GetMapping("/wechat/config")
+    public ResultJson wechat_config() {
+        logger.info("api.version={}", "V1.0");
+
+        logger.info("wechatpay.config:{}", weChatPayConfigMap);
+
+        return ResultJson.ok(weChatPayConfigMap);
     }
 }

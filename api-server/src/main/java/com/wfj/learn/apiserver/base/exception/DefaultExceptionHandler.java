@@ -48,7 +48,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResultJson exceptionHandler(Exception e) {
-        logger.error(e.getMessage());
+        logger.error("error:", e);
         return ResultJson.failure(ResultCode.SERVER_ERROR, e.getMessage());
     }
 

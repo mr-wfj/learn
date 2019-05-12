@@ -21,20 +21,20 @@ public final class PayConst {
     /**
      * 微信-默认账户
      */
-    public final static String WECHATPAY_DEFAULT_ACCOUNT = "wecahtpay.default";
+    public final static String WECHATPAY_DEFAULT_ACCOUNT = "wechatpay.default";
     /**
      * 微信-押金账户
      */
-    public final static String WECHATPAY_DEPOSIT_ACCOUNT = "wecahtpay.deposit";
+    public final static String WECHATPAY_DEPOSIT_ACCOUNT = "wechatpay.deposit";
 
     /**
      * 微信-默认账户
      */
-    public final static String WECHATPAY_DEFAULT_ACCOUNT_BEAN = "wecahtpay.default.bean";
+    public final static String WECHATPAY_DEFAULT_ACCOUNT_BEAN = "wechatpay.default.bean";
     /**
      * 微信-押金账户
      */
-    public final static String WECHATPAY_DEPOSIT_ACCOUNT_BEAN = "wecahtpay.deposit.bean";
+    public final static String WECHATPAY_DEPOSIT_ACCOUNT_BEAN = "wechatpay.deposit.bean";
 
     /**
      * 银联-默认账户

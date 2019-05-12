@@ -13,17 +13,17 @@ public class WeChatPayConfig {
     /**
      * appID
      */
-    private String appID;
+    private String appId;
 
     /**
      * mchID
      */
-    private String mchID;
+    private String mchId;
 
     /**
      * key
      */
-    private String key;
+    private String appKey;
 
     /**
      * certPath

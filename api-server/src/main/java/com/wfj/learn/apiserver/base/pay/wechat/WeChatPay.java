@@ -3,15 +3,15 @@ package com.wfj.learn.apiserver.base.pay.wechat;
 
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayConfig;
-import com.wfj.learn.apiserver.base.result.ResultCode;
-import com.wfj.learn.apiserver.base.result.ResultJson;
 import com.wfj.learn.apiserver.base.exception.CustomException;
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.order.OrderTypeEnum;
-import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.order.OrderVO;
+import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
+import com.wfj.learn.apiserver.base.result.ResultCode;
+import com.wfj.learn.apiserver.base.result.ResultJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Author: WFJ
@@ -31,11 +32,11 @@ public class WeChatPay implements BasePay {
     private Logger logger = LoggerFactory.getLogger(WeChatPay.class);
 
 
-    @Autowired
-    private Map<String, WXPayConfig> payConfigs;
+    //@Autowired
+    private Map<String, WXPayConfig> payConfigs = new ConcurrentHashMap<>();
 
     @Autowired
-    private Map<String, WeChatPayConfig> configs;
+    private Map<String, WeChatPayConfig> configs = new ConcurrentHashMap<>();
 
     /**
      * 支付-发起支付订单

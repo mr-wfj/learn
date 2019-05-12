@@ -23,16 +23,16 @@ public abstract class DefaultPayConfig extends WXPayConfig {
 
 
     public String getAppID() {
-        return config.getAppID();
+        return config.getAppId();
     }
 
     public String getMchID() {
-        return config.getMchID();
+        return config.getMchId();
     }
 
 
     public String getKey() {
-        return config.getKey();
+        return config.getAppKey();
     }
 
     /**

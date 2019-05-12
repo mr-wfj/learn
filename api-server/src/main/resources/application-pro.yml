@@ -21,16 +21,16 @@ alipay:
 
 wechatpay:
   default:
-    appID: 123456
-    mchID: xxxxxx
-    key: 111
+    appId: 123456
+    mchId: xxxxxx
+    appKey: 111
     certPath: /path/to/apiclient_cert.p12
     serverUrl: https://openapi.alipay.com/gateway.do
     notifyUrl: baidu
   deposit:
-    appID: 123456
-    mchID: xxxxxx
-    key: 111
+    appId: 123456
+    mchId: xxxxxx
+    appKey: 111
     certPath: /path/to/apiclient_cert.p12
     serverUrl: https://openapi.alipay.com/gateway.do
     notifyUrl: baidu

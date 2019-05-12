@@ -1,7 +1,6 @@
 package com.wfj.learn.apiserver.base.pay.wechat.config;
 
 import com.wfj.learn.apiserver.base.pay.PayConst;
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(PayConst.WECHATPAY_DEFAULT_ACCOUNT)
 @ConfigurationProperties(prefix = PayConst.WECHATPAY_DEFAULT_ACCOUNT)
-@Data
 public class DefaultConfig extends WeChatPayConfig {
 
 }

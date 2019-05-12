@@ -46,7 +46,7 @@ public abstract class DepositPayConfig extends WXPayConfig {
      * @return App ID
      */
     public String getAppID() {
-        return config.getAppID();
+        return config.getAppId();
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class DepositPayConfig extends WXPayConfig {
      * @return Mch ID
      */
     public String getMchID() {
-        return config.getMchID();
+        return config.getMchId();
     }
 
     /**
@@ -64,7 +64,7 @@ public abstract class DepositPayConfig extends WXPayConfig {
      * @return API密钥
      */
     public String getKey() {
-        return config.getAppID();
+        return config.getAppKey();
     }
 
     /**
