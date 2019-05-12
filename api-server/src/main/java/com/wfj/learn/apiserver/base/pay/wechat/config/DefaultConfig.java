@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description:
  */
 @Configuration(PayConst.WECHATPAY_DEFAULT_ACCOUNT)
-@ConfigurationProperties(prefix = "wechat.default")
+@ConfigurationProperties(prefix = PayConst.WECHATPAY_DEFAULT_ACCOUNT)
 @Data
 public class DefaultConfig extends WeChatPayConfig {
 

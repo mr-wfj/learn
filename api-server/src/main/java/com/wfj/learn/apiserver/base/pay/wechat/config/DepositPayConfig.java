@@ -4,7 +4,6 @@ package com.wfj.learn.apiserver.base.pay.wechat.config;
 import com.github.wxpay.sdk.WXPayConfig;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
@@ -18,8 +17,7 @@ import java.util.Map;
  * @Date: 2019/5/7 17:00
  * @Description:
  */
-@Component(PayConst.WECHATPAY_DEPOSIT_ACCOUNT)
-@ConfigurationProperties(prefix = PayConst.WECHATPAY_DEPOSIT_ACCOUNT)
+@Component(PayConst.WECHATPAY_DEPOSIT_ACCOUNT_BEAN)
 public abstract class DepositPayConfig extends WXPayConfig {
 
     @Autowired
