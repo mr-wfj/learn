@@ -22,7 +22,7 @@ public class WalletPay implements BasePay {
      */
     @Override
     public OrderVO pay(Order order) {
-        return OrderVO.builder().orderNumber(order.getNumber()).payTradeNumber(null).build();
+        return OrderVO.builder().orderNumber(order.getNumber()).build();
     }
 
 

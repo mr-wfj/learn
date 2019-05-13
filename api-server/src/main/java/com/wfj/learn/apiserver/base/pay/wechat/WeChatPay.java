@@ -31,7 +31,6 @@ public class WeChatPay implements BasePay {
 
     private Logger logger = LoggerFactory.getLogger(WeChatPay.class);
 
-
     @Autowired
     private Map<String, WXPayConfig> payConfigs = new ConcurrentHashMap<>();
 
@@ -78,7 +77,7 @@ public class WeChatPay implements BasePay {
         data.put("body", order.getDescription());
 
 
-        String payTradeNumber = null;
+        String tradeNumber = null;
         try {
             Map<String, String> resp = wxpay.unifiedOrder(data);
             //logger.error("微信支付统一下单结果:{}", resp);
@@ -86,7 +85,7 @@ public class WeChatPay implements BasePay {
             //return_code 和result_code都为SUCCESS
             if (resp.get("return_code").equals("SUCCESS") && resp.get("result_code").equals("SUCCESS")) {
                 //微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
-                payTradeNumber = resp.get("prepay_id");
+                tradeNumber = resp.get("prepay_id");
             } else {
                 logger.error("微信支付统一下单失败:{}", resp);
                 throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE));
@@ -96,7 +95,7 @@ public class WeChatPay implements BasePay {
             throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE));
         }
 
-        return OrderVO.builder().payTradeNumber(payTradeNumber).orderNumber(order.getNumber()).build();
+        return OrderVO.builder().tradeNumber(tradeNumber).orderNumber(order.getNumber()).build();
     }
 
 }

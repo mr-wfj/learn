@@ -1,25 +1,25 @@
 package com.wfj.learn.apiserver.base.pay.ali;
 
-import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
-import com.wfj.learn.apiserver.base.result.ResultCode;
-import com.wfj.learn.apiserver.base.result.ResultJson;
 import com.wfj.learn.apiserver.base.exception.CustomException;
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.order.OrderTypeEnum;
-import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.order.OrderVO;
+import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
+import com.wfj.learn.apiserver.base.result.ResultCode;
+import com.wfj.learn.apiserver.base.result.ResultJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,36 +74,27 @@ public class AliPay implements BasePay {
         //订单标题
         model.setSubject(order.getDescription());
 
-        /**
-         * 可选
-         */
-        //对交易或商品的描述
-        model.setBody(order.getDescription());
-        //该笔订单允许的最晚付款时间，逾期将关闭交易。
-        //取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。
-        // 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
-        model.setTimeoutExpress("30m");
-
         request.setBizModel(model);
         //回调地址:商户外网可以访问的异步地址
         request.setNotifyUrl(aliConfig.getNotifyUrl());
 
-        String payTradeNumber = null;
+        String orderStr = null;
         try {
             //这里和普通的接口调用不同，使用的是sdkExecute
             AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
-
             if (response.isSuccess()) {
-                payTradeNumber = response.getTradeNo();
+                orderStr = response.getBody();
+                String resultStr = URLDecoder.decode(orderStr, "UTF-8");
+                logger.debug("支付宝支付统一下单成功:{}", resultStr);
             } else {
                 logger.error("支付宝支付统一下单失败:{}", response);
-                throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE));
+                throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE, response.getSubMsg()));
             }
-        } catch (AlipayApiException e) {
+        } catch (Exception e) {
             logger.error("支付宝支付统一下单失败", e);
             throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE));
         }
-        return OrderVO.builder().payTradeNumber(payTradeNumber).orderNumber(order.getNumber()).build();
+        return OrderVO.builder().orderStr(orderStr).orderNumber(order.getNumber()).build();
     }
 
 }

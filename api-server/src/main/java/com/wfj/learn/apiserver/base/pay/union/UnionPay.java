@@ -1,8 +1,8 @@
 package com.wfj.learn.apiserver.base.pay.union;
 
 import com.wfj.learn.apiserver.base.order.Order;
-import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.order.OrderVO;
+import com.wfj.learn.apiserver.base.pay.BasePay;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +21,7 @@ public class UnionPay implements BasePay {
      */
     @Override
     public OrderVO pay(Order order) {
-        return OrderVO.builder().orderNumber(order.getNumber()).payTradeNumber(null).build();
+        return OrderVO.builder().orderNumber(order.getNumber()).build();
     }
 
 }

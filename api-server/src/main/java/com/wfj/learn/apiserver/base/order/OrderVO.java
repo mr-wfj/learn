@@ -20,7 +20,9 @@ public class OrderVO {
     /**
      * 支付交易号(一般第三方支付都会产生)
      */
-    private String payTradeNumber;
+    private String tradeNumber;
+
+    private String orderStr;
 
     
 }
