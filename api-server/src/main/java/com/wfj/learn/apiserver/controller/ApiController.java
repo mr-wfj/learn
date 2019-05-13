@@ -12,6 +12,7 @@ package com.wfj.learn.apiserver.controller;
 
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.pay.BasePayFactory;
+import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
 import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
 import com.wfj.learn.apiserver.base.result.ResultJson;
@@ -57,6 +58,16 @@ public class ApiController {
         return ResultJson.ok(aliPayConfigMap);
     }
 
+    @GetMapping("/ali/pay")
+    public ResultJson ali_pay() {
+        logger.info("api.version={}", "V1.0");
+
+        Order order = Order.builder().number("123456789").amount(1.0).description("测试商品001").build();
+        basePayFactory.getcontext(PayConst.ALI_PAY).pay(order);
+
+        return ResultJson.ok(aliPayConfigMap);
+    }
+
     @Autowired
     private Map<String, WeChatPayConfig> weChatPayConfigMap;
 
@@ -77,8 +88,8 @@ public class ApiController {
     public ResultJson wechat_pay() {
         logger.info("api.version={}", "V1.0");
 
-        Order order = Order.builder().build();
-        basePayFactory.getcontext("wechat").pay(order);
+        Order order = Order.builder().number("123456789").amount(1.0).description("测试商品001").build();
+        basePayFactory.getcontext(PayConst.WECHAT_PAY).pay(order);
         logger.info("wechatpay.config:{}", weChatPayConfigMap);
 
         return ResultJson.ok(weChatPayConfigMap.toString());

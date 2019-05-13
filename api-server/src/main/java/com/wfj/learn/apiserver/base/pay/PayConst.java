@@ -9,6 +9,26 @@ public final class PayConst {
     private PayConst() {
     }
 
+    /**
+     * 钱包
+     */
+    public static final String WALLET_PAY = "wallet_pay";
+
+    /**
+     * 支付宝
+     */
+    public static final String ALI_PAY = "ali_pay";
+
+    /**
+     * 微信
+     */
+    public static final String WECHAT_PAY = "wechat_pay";
+
+    /**
+     * 银联
+     */
+    public static final String UNION_PAY = "union_pay";
+
 
     /**
      * 支付宝-默认账户

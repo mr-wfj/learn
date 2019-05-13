@@ -3,6 +3,7 @@ package com.wfj.learn.apiserver.base.pay.union;
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.order.OrderVO;
 import com.wfj.learn.apiserver.base.pay.BasePay;
+import com.wfj.learn.apiserver.base.pay.PayConst;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Date: 2019/4/29 11:52
  * @Description: 银联支付
  */
-@Component("union")
+@Component(PayConst.UNION_PAY)
 public class UnionPay implements BasePay {
 
     /**

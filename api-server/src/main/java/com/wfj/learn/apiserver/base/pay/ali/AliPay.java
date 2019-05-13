@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date: 2019/4/28 15:40
  * @Description: 支付宝支付实现
  */
-@Component("ali")
+@Component(PayConst.ALI_PAY)
 public class AliPay implements BasePay {
 
     private Logger logger = LoggerFactory.getLogger(AliPay.class);

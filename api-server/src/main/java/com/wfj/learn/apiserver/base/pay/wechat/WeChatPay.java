@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date: 2019/4/28 15:42
  * @Description: 微信支付实现
  */
-@Component("wechat")
+@Component(PayConst.WECHAT_PAY)
 public class WeChatPay implements BasePay {
 
     private Logger logger = LoggerFactory.getLogger(WeChatPay.class);

@@ -3,6 +3,7 @@ package com.wfj.learn.apiserver.base.pay.wallet;
 import com.wfj.learn.apiserver.base.order.Order;
 import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.order.OrderVO;
+import com.wfj.learn.apiserver.base.pay.PayConst;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Date: 2019/4/28 15:42
  * @Description: 钱包支付实现
  */
-@Component("wallet")
+@Component(PayConst.WALLET_PAY)
 public class WalletPay implements BasePay {
 
 
