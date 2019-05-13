@@ -48,15 +48,6 @@ public final class PayConst {
     public final static String WECHATPAY_DEPOSIT_ACCOUNT = "wechatpay.deposit";
 
     /**
-     * 微信-默认账户
-     */
-    public final static String WECHATPAY_DEFAULT_ACCOUNT_BEAN = "wechatpay.default.bean";
-    /**
-     * 微信-押金账户
-     */
-    public final static String WECHATPAY_DEPOSIT_ACCOUNT_BEAN = "wechatpay.deposit.bean";
-
-    /**
      * 银联-默认账户
      */
     public final static String UNIONPAY_DEFAULT_ACCOUNT = "unionpay.default";

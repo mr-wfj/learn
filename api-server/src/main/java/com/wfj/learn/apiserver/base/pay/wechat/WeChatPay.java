@@ -9,7 +9,6 @@ import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
 import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPay;
-import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPayConfig;
 import com.wfj.learn.apiserver.base.result.ResultCode;
 import com.wfj.learn.apiserver.base.result.ResultJson;
 import org.slf4j.Logger;
@@ -32,9 +31,6 @@ public class WeChatPay implements BasePay {
     private Logger logger = LoggerFactory.getLogger(WeChatPay.class);
 
     @Autowired
-    private Map<String, WXPayConfig> payConfigs = new ConcurrentHashMap<>();
-
-    @Autowired
     private Map<String, WeChatPayConfig> configs = new ConcurrentHashMap<>();
 
     /**
@@ -46,17 +42,15 @@ public class WeChatPay implements BasePay {
     @Override
     public OrderVO pay(Order order) {
 
-        WeChatPayConfig config = configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT);
-        WXPayConfig payConfig = payConfigs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT_BEAN);
+        WeChatPayConfig weChatPayConfig = configs.get(PayConst.WECHATPAY_DEFAULT_ACCOUNT);
 
         if (OrderTypeEnum.deposit_recharge.getCode().equals(order.getType())) {//押金
-            config = configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT);
-            payConfig = payConfigs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT);
+            weChatPayConfig = configs.get(PayConst.WECHATPAY_DEPOSIT_ACCOUNT);
         }
 
         WXPay wxpay = null;
         try {
-            wxpay = new WXPay(payConfig);
+            wxpay = new WXPay(weChatPayConfig);
         } catch (Exception e) {
             logger.error("微信支付统一下单失败", e);
             throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE));
@@ -71,7 +65,7 @@ public class WeChatPay implements BasePay {
         //终端IP,支持IPV4和IPV6两种格式的IP地址。调用微信支付API的机器IP
         data.put("spbill_create_ip", "123.12.12.123");
         //通知地址,接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。
-        data.put("notify_url", config.getNotifyUrl());
+        data.put("notify_url", weChatPayConfig.getNotifyUrl());
         //交易类型,支付类型
         data.put("trade_type", "APP");
         data.put("body", order.getDescription());

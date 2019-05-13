@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -35,7 +35,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/api")
 public class ApiController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -58,7 +57,7 @@ public class ApiController {
         return ResultJson.ok(aliPayConfigMap);
     }
 
-    @GetMapping("/ali/pay")
+    @PostMapping("/ali/pay")
     public ResultJson ali_pay() {
         logger.info("api.version={}", "V1.0");
 
@@ -84,7 +83,7 @@ public class ApiController {
     @Autowired
     private BasePayFactory basePayFactory;
 
-    @GetMapping("/wechat/pay")
+    @PostMapping("/wechat/pay")
     public ResultJson wechat_pay() {
         logger.info("api.version={}", "V1.0");
 
