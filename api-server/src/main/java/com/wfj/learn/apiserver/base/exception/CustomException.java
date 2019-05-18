@@ -1,6 +1,6 @@
 package com.wfj.learn.apiserver.base.exception;
 
-import com.wfj.learn.apiserver.base.result.ResultJson;
+import com.wfj.learn.apiserver.base.result.Result;
 import lombok.Getter;
 
 /**
@@ -9,9 +9,9 @@ import lombok.Getter;
 @Getter
 public class CustomException extends RuntimeException {
 
-    private ResultJson resultJson;
+    private Result result;
 
-    public CustomException(ResultJson resultJson) {
-        this.resultJson = resultJson;
+    public CustomException(Result result) {
+        this.result = result;
     }
 }

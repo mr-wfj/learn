@@ -1,31 +1,39 @@
 package com.wfj.learn.apiserver.base.pay.wechat.config;
 
-import com.wfj.learn.apiserver.base.pay.wechat.sdk.IWXPayDomain;
-import com.wfj.learn.apiserver.base.pay.wechat.sdk.WXPayConfig;
+import com.wfj.learn.apiserver.base.pay.wechat.sdk.*;
+import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: WFJ
  * @Date: 2019/5/6 10:28
  * @Description:
  */
+@Data
 public class WeChatPayConfig extends WXPayConfig {
+
+    private Logger logger = LoggerFactory.getLogger(WeChatPayConfig.class);
+
 
     /**
      * appID
      */
-    private String appId;
+    private String apiAppId;
 
     /**
      * mchID
      */
-    private String mchId;
+    private String apiMchId;
 
     /**
-     * key
+     * API key
      */
-    private String appKey;
+    private String apiKey;
 
     /**
      * certPath
@@ -35,82 +43,107 @@ public class WeChatPayConfig extends WXPayConfig {
      * notifyUrl
      */
     private String notifyUrl;
-    /**
-     * serverUrl
-     */
-    private String serverUrl;
 
+    /**
+     * useSandbox 沙箱环境
+     */
+    private boolean useSandbox;
+
+    /**
+     * 获取 App ID
+     *
+     * @return App ID
+     */
     @Override
     public String getAppID() {
-        return appId;
+        return apiAppId;
     }
 
+    /**
+     * 获取 Mch ID
+     *
+     * @return Mch ID
+     */
     @Override
     public String getMchID() {
-        return mchId;
+        return apiMchId;
     }
 
+    /**
+     * 获取 API 密钥
+     *
+     * @return API密钥
+     */
     @Override
     public String getKey() {
-        return appKey;
+        return apiKey;
     }
 
+    /**
+     * 获取商户证书内容
+     *
+     * @return 商户证书内容
+     */
     @Override
-    public InputStream getCertStream() {
+    public InputStream getCertStream() throws IOException {
         File file = new File(certPath);
-        byte[] certData = new byte[200];
-        if (file.exists()) {
-
-            InputStream certStream = null;
-            try {
-                certStream = new FileInputStream(file);
-                certData = new byte[(int) file.length()];
-                certStream.read(certData);
-                certStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        ByteArrayInputStream iputStream = new ByteArrayInputStream(certData);
-        return iputStream;
+        InputStream certStream = new FileInputStream(file);
+        byte[] certData = new byte[(int) file.length()];
+        certStream.read(certData);
+        certStream.close();
+        return new ByteArrayInputStream(certData);
     }
 
+    /**
+     * 获取WXPayDomain, 用于多域名容灾自动切换
+     *
+     * @return
+     */
     @Override
     public IWXPayDomain getWXPayDomain() {
-        return null;
+        IWXPayDomain iwxPayDomain = new IWXPayDomain() {
+            @Override
+            public void report(String domain, long elapsedTimeMillis, Exception ex) {
+            }
+
+            @Override
+            public DomainInfo getDomain(WXPayConfig config) {
+                return new IWXPayDomain.DomainInfo(WXPayConstants.DOMAIN_API, true);
+            }
+        };
+        return iwxPayDomain;
+    }
+
+    /**
+     * 设置沙漏环境keye
+     *
+     * @return boolean
+     * @throws Exception e
+     */
+    public boolean setSandboxSignKey() throws Exception {
+        try {
+            WXPay wxPay = new WXPay(this);
+
+            Map<String, String> params = new HashMap<>();
+            params.put("mch_id", this.getMchID());
+            params.put("nonce_str", WXPayUtil.generateNonceStr());
+            params.put("sign", WXPayUtil.generateSignature(params, this.getKey()));
+            String strXML = wxPay.requestWithoutCert("/sandboxnew/pay/getsignkey",
+                    params, this.getHttpConnectTimeoutMs(), this.getHttpReadTimeoutMs());
+
+            Map<String, String> result = WXPayUtil.xmlToMap(strXML);
+            logger.debug("retrieveSandboxSignKey{}", result);
+
+            if ("SUCCESS".equals(result.get("return_code"))) {
+                apiKey = result.get("sandbox_signkey");
+                return true;
+
+            }
+            return false;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
 
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public void setMchId(String mchId) {
-        this.mchId = mchId;
-    }
-
-    public void setAppKey(String appKey) {
-        this.appKey = appKey;
-    }
-
-    public void setCertPath(String certPath) {
-        this.certPath = certPath;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
-
-    public String getServerUrl() {
-        return serverUrl;
-    }
-
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
 }

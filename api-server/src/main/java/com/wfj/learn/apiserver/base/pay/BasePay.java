@@ -1,6 +1,6 @@
 package com.wfj.learn.apiserver.base.pay;
 
-import com.wfj.learn.apiserver.base.order.Order;
+import com.wfj.learn.apiserver.base.order.PayOrder;
 import com.wfj.learn.apiserver.base.order.OrderVO;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +15,9 @@ public interface BasePay {
     /**
      * 支付-发起支付订单
      *
-     * @param order 订单
+     * @param payOrder 订单
      * @return OrderVO
      */
-    OrderVO pay(Order order);
+    OrderVO pay(PayOrder payOrder);
 
 }

@@ -10,12 +10,12 @@
  */
 package com.wfj.learn.apiserver.controller;
 
-import com.wfj.learn.apiserver.base.order.Order;
+import com.wfj.learn.apiserver.base.order.PayOrder;
 import com.wfj.learn.apiserver.base.pay.BasePayFactory;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
 import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
-import com.wfj.learn.apiserver.base.result.ResultJson;
+import com.wfj.learn.apiserver.base.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,34 +49,34 @@ public class ApiController {
     private Map<String, AliPayConfig> aliPayConfigMap = new ConcurrentHashMap<>();
 
     @GetMapping("/ali/config")
-    public ResultJson ali_config() {
+    public Result ali_config() {
         logger.info("api.version={}", "V1.0");
 
         logger.info("alipay.config:{}", aliPayConfigMap);
 
-        return ResultJson.ok(aliPayConfigMap);
+        return Result.ok(aliPayConfigMap);
     }
 
     @PostMapping("/ali/pay")
-    public ResultJson ali_pay() {
+    public Result ali_pay() {
         logger.info("api.version={}", "V1.0");
 
-        Order order = Order.builder().number("123456789").amount(1.0).description("测试商品001").build();
-        basePayFactory.getcontext(PayConst.ALI_PAY).pay(order);
+        PayOrder payOrder = PayOrder.builder().number("123456789").amount(1.0).description("测试商品001").build();
+        basePayFactory.getcontext(PayConst.ALI_PAY).pay(payOrder);
 
-        return ResultJson.ok(aliPayConfigMap);
+        return Result.ok(aliPayConfigMap);
     }
 
     @Autowired
     private Map<String, WeChatPayConfig> weChatPayConfigMap;
 
     @GetMapping("/wechat/config")
-    public ResultJson wechat_config() {
+    public Result wechat_config() {
         logger.info("api.version={}", "V1.0");
 
         logger.info("wechatpay.config:{}", weChatPayConfigMap);
 
-        return ResultJson.ok(weChatPayConfigMap.toString());
+        return Result.ok(weChatPayConfigMap.toString());
     }
 
 
@@ -84,13 +84,13 @@ public class ApiController {
     private BasePayFactory basePayFactory;
 
     @PostMapping("/wechat/pay")
-    public ResultJson wechat_pay() {
+    public Result wechat_pay() {
         logger.info("api.version={}", "V1.0");
 
-        Order order = Order.builder().number("123456789").amount(1.0).description("测试商品001").build();
-        basePayFactory.getcontext(PayConst.WECHAT_PAY).pay(order);
+        PayOrder payOrder = PayOrder.builder().number("123456789").amount(1.0).description("测试商品001").build();
+        basePayFactory.getcontext(PayConst.WECHAT_PAY).pay(payOrder);
         logger.info("wechatpay.config:{}", weChatPayConfigMap);
 
-        return ResultJson.ok(weChatPayConfigMap.toString());
+        return Result.ok(weChatPayConfigMap.toString());
     }
 }

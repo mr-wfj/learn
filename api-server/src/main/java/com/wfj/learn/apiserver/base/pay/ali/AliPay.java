@@ -6,14 +6,14 @@ import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.wfj.learn.apiserver.base.exception.CustomException;
-import com.wfj.learn.apiserver.base.order.Order;
+import com.wfj.learn.apiserver.base.order.PayOrder;
 import com.wfj.learn.apiserver.base.order.OrderTypeEnum;
 import com.wfj.learn.apiserver.base.order.OrderVO;
 import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.pay.PayConst;
 import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
+import com.wfj.learn.apiserver.base.result.Result;
 import com.wfj.learn.apiserver.base.result.ResultCode;
-import com.wfj.learn.apiserver.base.result.ResultJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,18 +41,18 @@ public class AliPay implements BasePay {
     /**
      * 支付-发起支付订单
      *
-     * @param order 订单
+     * @param payOrder 订单
      * @return OrderVO
      */
     @Override
-    public OrderVO pay(Order order) {
+    public OrderVO pay(PayOrder payOrder) {
         //API:https://docs.open.alipay.com/api_1/alipay.trade.create/
 
-        logger.info("AliPay:orderNumber:{},date:{}", order.getNumber(), new Date().toString());
+        logger.info("AliPay:orderNumber:{},date:{}", payOrder.getNumber(), new Date().toString());
 
         AliPayConfig aliConfig = payConfigs.get(PayConst.ALIPAY_DEFAULT_ACCOUNT);
 
-        if (OrderTypeEnum.deposit_recharge.getCode().equals(order.getType())) {//押金
+        if (OrderTypeEnum.DEPOSIT_RECHARGE.getCode().equals(payOrder.getType())) {//押金
             aliConfig = payConfigs.get(PayConst.ALIPAY_DEPOSIT_ACCOUNT);
         }
 
@@ -67,12 +67,12 @@ public class AliPay implements BasePay {
          * 必选
          */
         //商户订单号,64个字符以内、只能包含字母、数字、下划线；需保证在商户端不重复
-        model.setOutTradeNo(order.getNumber());
+        model.setOutTradeNo(payOrder.getNumber());
         //订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
         //如果同时传入了【打折金额】，【不可打折金额】，【订单总金额】三者，则必须满足如下条件：【订单总金额】=【打折金额】+【不可打折金额】
-        model.setTotalAmount(String.valueOf(order.getAmount()));
+        model.setTotalAmount(String.valueOf(payOrder.getAmount()));
         //订单标题
-        model.setSubject(order.getDescription());
+        model.setSubject(payOrder.getDescription());
 
         request.setBizModel(model);
         //回调地址:商户外网可以访问的异步地址
@@ -88,13 +88,13 @@ public class AliPay implements BasePay {
                 logger.debug("支付宝支付统一下单成功:{}", resultStr);
             } else {
                 logger.error("支付宝支付统一下单失败:{}", response);
-                throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE, response.getSubMsg()));
+                throw new CustomException(Result.failure(ResultCode.ORDER_FAILURE, response.getSubMsg()));
             }
         } catch (Exception e) {
             logger.error("支付宝支付统一下单失败", e);
-            throw new CustomException(ResultJson.failure(ResultCode.ORDER_FAILURE));
+            throw new CustomException(Result.failure(ResultCode.ORDER_FAILURE));
         }
-        return OrderVO.builder().orderStr(orderStr).orderNumber(order.getNumber()).build();
+        return OrderVO.builder().orderStr(orderStr).orderNumber(payOrder.getNumber()).build();
     }
 
 }

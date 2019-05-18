@@ -6,31 +6,30 @@ logging:
 
 alipay:
   default:
-    appId: 123456
+    appId: 111111
     appPrivateKey: xxxxxx
-    charset: 111
-    alipayPublicKey: xxx
+    charset: UTF-8
+    alipayPublicKey: xxxxxx
     serverUrl: https://openapi.alipay.com/gateway.do
-    notifyUrl: baidu
+    notifyUrl: xxxxxx
   deposit:
-    appId: 111
-    charset: 111
-    alipayPublicKey: xxx
+    appId: 222222
+    appPrivateKey: xxxxxx
+    charset: UTF-8
+    alipayPublicKey: xxxxxx
     serverUrl: https://openapi.alipay.com/gateway.do
-    notifyUrl: baidu
+    notifyUrl: xxxxxx
 
 wechatpay:
   default:
-    appId: 123456
-    mchId: xxxxxx
-    appKey: 111
-    certPath: /path/to/apiclient_cert.p12
-    serverUrl: https://openapi.alipay.com/gateway.do
-    notifyUrl: baidu
+    apiAppId: 333333
+    apiMchId: 333333
+    apiKey: xxxxxx
+    certPath: d/path/to/apiclientCert.p12
+    notifyUrl: xxxxxx
   deposit:
-    appId: 123456
-    mchId: xxxxxx
-    appKey: 111
-    certPath: /path/to/apiclient_cert.p12
-    serverUrl: https://openapi.alipay.com/gateway.do
-    notifyUrl: baidu
+    apiAppId: 444444
+    apiMchId: 444444
+    apiKey: xxxxxx
+    certPath: d/path/to/apiclientCert.p12
+    notifyUrl: xxxxxx

@@ -1,5 +1,7 @@
 package com.wfj.learn.apiserver.base.pay.wechat.sdk;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 public abstract class WXPayConfig {
@@ -34,7 +36,7 @@ public abstract class WXPayConfig {
      *
      * @return 商户证书内容
      */
-    public abstract InputStream getCertStream();
+    public abstract InputStream getCertStream() throws IOException;
 
     /**
      * HTTP(S) 连接超时时间，单位毫秒

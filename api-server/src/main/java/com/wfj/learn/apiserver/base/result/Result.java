@@ -7,34 +7,34 @@ import lombok.Data;
  * RESTful API 返回类型
  */
 @Data
-public class ResultJson<T> {
+public class Result<T> {
 
     private static final long serialVersionUID = 783015033603078674L;
     private int code;
     private String msg;
     private T data;
 
-    public static ResultJson ok() {
+    public static Result ok() {
         return ok("");
     }
 
-    public static ResultJson ok(Object o) {
-        return new ResultJson(ResultCode.SUCCESS, o);
+    public static Result ok(Object o) {
+        return new Result(ResultCode.SUCCESS, o);
     }
 
-    public static ResultJson failure(ResultCode code) {
+    public static Result failure(ResultCode code) {
         return failure(code, "");
     }
 
-    public static ResultJson failure(ResultCode code, Object o) {
-        return new ResultJson(code, o);
+    public static Result failure(ResultCode code, Object o) {
+        return new Result(code, o);
     }
 
-    public ResultJson(ResultCode resultCode) {
+    public Result(ResultCode resultCode) {
         setResultCode(resultCode);
     }
 
-    public ResultJson(ResultCode resultCode, T data) {
+    public Result(ResultCode resultCode, T data) {
         setResultCode(resultCode);
         this.data = data;
     }

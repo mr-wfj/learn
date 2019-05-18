@@ -1,8 +1,8 @@
 package com.wfj.learn.apiserver.base.exception;
 
 
+import com.wfj.learn.apiserver.base.result.Result;
 import com.wfj.learn.apiserver.base.result.ResultCode;
-import com.wfj.learn.apiserver.base.result.ResultJson;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,30 +26,30 @@ public class DefaultExceptionHandler {
      * 处理所有自定义异常
      *
      * @param e CustomException
-     * @return ResultJson
+     * @return Result
      */
     @ExceptionHandler(CustomException.class)
-    public ResultJson handleCustomException(CustomException e) {
-        logger.error(e.getResultJson().getMsg());
-        return e.getResultJson();
+    public Result handleCustomException(CustomException e) {
+        logger.error(e.getResult().getMsg());
+        return e.getResult();
     }
 
     /**
      * 处理参数校验异常
      *
      * @param e MethodArgumentNotValidException
-     * @return ResultJson
+     * @return Result
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultJson handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         logger.error(e.getBindingResult().getFieldError().getField() + e.getBindingResult().getFieldError().getDefaultMessage());
-        return ResultJson.failure(ResultCode.BAD_REQUEST, e.getBindingResult().getFieldError().getDefaultMessage());
+        return Result.failure(ResultCode.BAD_REQUEST, e.getBindingResult().getFieldError().getDefaultMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResultJson exceptionHandler(Exception e) {
+    public Result exceptionHandler(Exception e) {
         logger.error("error:", e);
-        return ResultJson.failure(ResultCode.SERVER_ERROR, e.getMessage());
+        return Result.failure(ResultCode.SERVER_ERROR, e.getMessage());
     }
 
 

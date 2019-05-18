@@ -1,6 +1,6 @@
 package com.wfj.learn.apiserver.base.pay.union;
 
-import com.wfj.learn.apiserver.base.order.Order;
+import com.wfj.learn.apiserver.base.order.PayOrder;
 import com.wfj.learn.apiserver.base.order.OrderVO;
 import com.wfj.learn.apiserver.base.pay.BasePay;
 import com.wfj.learn.apiserver.base.pay.PayConst;
@@ -17,12 +17,12 @@ public class UnionPay implements BasePay {
     /**
      * 支付-发起支付订单
      *
-     * @param order 订单
+     * @param payOrder 订单
      * @return OrderVO
      */
     @Override
-    public OrderVO pay(Order order) {
-        return OrderVO.builder().orderNumber(order.getNumber()).build();
+    public OrderVO pay(PayOrder payOrder) {
+        return OrderVO.builder().orderNumber(payOrder.getNumber()).build();
     }
 
 }
