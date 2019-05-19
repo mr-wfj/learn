@@ -9,17 +9,23 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.io.Serializable;
-
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisCacheAutoConfiguration {
 
     @Bean
-    public RedisTemplate<String, Serializable> redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Serializable> template = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+
+        // key采用String的序列化方式
         template.setKeySerializer(new StringRedisSerializer());
+        // hash的key也采用String的序列化方式
+        template.setHashKeySerializer(new StringRedisSerializer());
+        // value序列化方式采用jackson
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        // hash的value序列化方式采用jackson
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+
         template.setConnectionFactory(redisConnectionFactory);
         return template;
     }
