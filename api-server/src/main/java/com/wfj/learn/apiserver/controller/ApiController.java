@@ -10,21 +10,19 @@
  */
 package com.wfj.learn.apiserver.controller;
 
-import com.wfj.learn.apiserver.base.order.PayOrder;
-import com.wfj.learn.apiserver.base.pay.BasePayFactory;
-import com.wfj.learn.apiserver.base.pay.PayConst;
-import com.wfj.learn.apiserver.base.pay.ali.config.AliPayConfig;
-import com.wfj.learn.apiserver.base.pay.wechat.config.WeChatPayConfig;
-import com.wfj.learn.apiserver.base.result.Result;
+import com.wfj.learn.apiserver.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -39,58 +37,39 @@ public class ApiController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private RedisTemplate<String, Serializable> redisCacheTemplate;
+
     @GetMapping("/version")
     public String Version() {
         logger.info("api.version={}", "V1.0");
         return "V1.0";
     }
 
-    @Autowired
-    private Map<String, AliPayConfig> aliPayConfigMap = new ConcurrentHashMap<>();
+    @GetMapping("/redis")
+    private void redis() {
 
-    @GetMapping("/ali/config")
-    public Result ali_config() {
-        logger.info("api.version={}", "V1.0");
-
-        logger.info("alipay.config:{}", aliPayConfigMap);
-
-        return Result.ok(aliPayConfigMap);
+        stringRedisTemplate.opsForValue().set("k1", "v1");
+        final String k1 = stringRedisTemplate.opsForValue().get("k1");
+        logger.info("[字符缓存结果] - [{}]", k1);
+        // TODO 以下只演示整合，具体Redis命令可以参考官方文档，Spring Data Redis 只是改了个名字而已，Redis支持的命令它都支持
+        String key = "api:user:1";
+        redisCacheTemplate.opsForValue().set(key, new User(1L, "u1", "pa"));
+        // TODO 对应 String（字符串）
+        final User user = (User) redisCacheTemplate.opsForValue().get(key);
+        logger.info("[对象缓存结果] - [{}]", user);
     }
 
-    @PostMapping("/ali/pay")
-    public Result ali_pay() {
-        logger.info("api.version={}", "V1.0");
+    @GetMapping("/redis/pool")
+    private void redisPool() {
+        // TODO 测试线程安全
+        ExecutorService executorService = Executors.newFixedThreadPool(1000);
+        IntStream.range(0, 1000).forEach(i ->
+                executorService.execute(() -> stringRedisTemplate.opsForValue().increment("kk", 1))
+        );
 
-        PayOrder payOrder = PayOrder.builder().number("123456789").amount(1.0).description("测试商品001").build();
-        basePayFactory.getcontext(PayConst.ALI_PAY).pay(payOrder);
-
-        return Result.ok(aliPayConfigMap);
-    }
-
-    @Autowired
-    private Map<String, WeChatPayConfig> weChatPayConfigMap;
-
-    @GetMapping("/wechat/config")
-    public Result wechat_config() {
-        logger.info("api.version={}", "V1.0");
-
-        logger.info("wechatpay.config:{}", weChatPayConfigMap);
-
-        return Result.ok(weChatPayConfigMap.toString());
-    }
-
-
-    @Autowired
-    private BasePayFactory basePayFactory;
-
-    @PostMapping("/wechat/pay")
-    public Result wechat_pay() {
-        logger.info("api.version={}", "V1.0");
-
-        PayOrder payOrder = PayOrder.builder().number("123456789").amount(1.0).description("测试商品001").build();
-        basePayFactory.getcontext(PayConst.WECHAT_PAY).pay(payOrder);
-        logger.info("wechatpay.config:{}", weChatPayConfigMap);
-
-        return Result.ok(weChatPayConfigMap.toString());
     }
 }
