@@ -10,6 +10,7 @@
  */
 package com.wfj.learn.apiserver.controller;
 
+import com.wfj.learn.apiserver.base.result.Result;
 import com.wfj.learn.apiserver.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,13 +45,13 @@ public class ApiController {
     private RedisTemplate<String, Serializable> redisCacheTemplate;
 
     @GetMapping("/version")
-    public String Version() {
+    public Result Version() {
         logger.info("api.version={}", "V1.0");
-        return "V1.0";
+        return Result.ok("V1.0");
     }
 
     @GetMapping("/redis")
-    private void redis() {
+    private Result redis() {
 
         stringRedisTemplate.opsForValue().set("k1", "v1");
         final String k1 = stringRedisTemplate.opsForValue().get("k1");
@@ -61,15 +62,18 @@ public class ApiController {
         // TODO 对应 String（字符串）
         final User user = (User) redisCacheTemplate.opsForValue().get(key);
         logger.info("[对象缓存结果] - [{}]", user);
+
+        return Result.ok(user);
     }
 
     @GetMapping("/redis/pool")
-    private void redisPool() {
+    private Result redisPool() {
         // TODO 测试线程安全
         ExecutorService executorService = Executors.newFixedThreadPool(1000);
         IntStream.range(0, 1000).forEach(i ->
                 executorService.execute(() -> stringRedisTemplate.opsForValue().increment("kk", 1))
         );
 
+        return Result.ok();
     }
 }
