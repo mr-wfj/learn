@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class Result<T> {
 
-    private static final long serialVersionUID = 783015033603078674L;
     private int code;
     private String msg;
     private T data;
@@ -19,29 +18,38 @@ public class Result<T> {
     }
 
     public static Result ok(Object o) {
-        return new Result(ResultCode.SUCCESS, o);
+        return new Result<>(ResultCode.SUCCESS, o);
     }
 
     public static Result failure(ResultCode code) {
-        return failure(code, "");
+        return failure(code, null);
     }
 
     public static Result failure(ResultCode code, Object o) {
-        return new Result(code, o);
+        return new Result<>(code, o);
     }
 
     public Result(ResultCode resultCode) {
         setResultCode(resultCode);
     }
 
-    public Result(ResultCode resultCode, T data) {
+    private Result(ResultCode resultCode, T data) {
         setResultCode(resultCode);
         this.data = data;
     }
 
-    public void setResultCode(ResultCode resultCode) {
+    private void setResultCode(ResultCode resultCode) {
         this.code = resultCode.getCode();
         this.msg = resultCode.getMsg();
+    }
+
+    /**
+     * 200:成功
+     *
+     * @return success:true/false
+     */
+    public boolean isSuccess() {
+        return ResultCode.SUCCESS.getCode() == this.code;
     }
 
     @Override
