@@ -1,5 +1,7 @@
 package com.wfj.learn.apiserver.service;
 
+import com.wfj.learn.apiserver.entity.User;
+
 public interface UserService {
 
     /**
@@ -18,5 +20,12 @@ public interface UserService {
      * @return boolean
      */
     boolean out(String token);
+
+    /**
+     * 获取用户信息
+     * @param token token
+     * @return
+     */
+    User getUserInfo(String token);
 
 }

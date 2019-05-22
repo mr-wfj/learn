@@ -53,7 +53,7 @@ public class JwtUtils {
             if (claims.getExpiration().before(new Date())) return false;
 
             // 获取用户ID为空 失效
-            return StringUtils.isBlank(claims.get(JwtConst.CLAIM_KEY_USER_ID).toString());
+            return StringUtils.isNotBlank(claims.get(JwtConst.CLAIM_KEY_USER_ID).toString());
         } catch (Exception e) {
             return false;
         }

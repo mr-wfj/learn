@@ -44,7 +44,10 @@ public class UserCache {
 
         Integer userId = jwtUtils.getUserId(token);
 
-        String tokenStr = redisUtils.get(userTokenKey + userId).toString();
+        Object object = redisUtils.get(userTokenKey + userId);
+        if (object == null) throw new CustomException(Result.failure(ResultCode.TOKEN_TIME_OUT));
+
+        String tokenStr = object.toString();
         // token 不存在
         if (StringUtils.isBlank(tokenStr)) throw new CustomException(Result.failure(ResultCode.TOKEN_TIME_OUT));
         // token 不同 则:其他设备登录该账号
@@ -99,10 +102,20 @@ public class UserCache {
      * @param token token
      * @return User
      */
-    private User getUser(String token) {
+    public User getUser(String token) {
         Integer userId = jwtUtils.getUserId(token);
         if (userId == null) throw new CustomException(Result.failure(ResultCode.TOKEN_TIME_OUT));
 
+        return getUser(userId);
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param userId userId
+     * @return User
+     */
+    public User getUser(Integer userId) {
         User user = (User) redisUtils.get(userInfoKey + userId);
         if (user == null) throw new CustomException(Result.failure(ResultCode.TOKEN_TIME_OUT));
 

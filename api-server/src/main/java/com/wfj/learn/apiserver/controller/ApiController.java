@@ -57,11 +57,13 @@ public class ApiController {
 
         // TODO 以下只演示整合，具体Redis命令可以参考官方文档，Spring Data Redis 只是改了个名字而已，Redis支持的命令它都支持
         String key = "api:user:1";
-        redisUtils.set(key, new User(1L, "u1", "pa"));
+
+        User user = User.builder().id(1).userName("u1").password("pa").build();
+        redisUtils.set(key, user);
 
         // TODO 对应 String（字符串）
-        final User user = (User) redisUtils.get(key);
-        logger.info("[对象缓存结果] - [{}]", user);
+        final User userInfo = (User) redisUtils.get(key);
+        logger.info("[对象缓存结果] - [{}]", userInfo);
 
         return Result.ok(user);
     }
