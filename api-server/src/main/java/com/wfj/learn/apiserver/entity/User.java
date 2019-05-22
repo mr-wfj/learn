@@ -1,21 +1,16 @@
 package com.wfj.learn.apiserver.entity;
 
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class User {
 
     private Integer id;
-    private String username;
+    private String userName;
     private String password;
+    private String mobile;
 
-    public User() {
-    }
-
-    public User(Integer id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
 }

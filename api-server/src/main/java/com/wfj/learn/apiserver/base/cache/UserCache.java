@@ -3,6 +3,7 @@ package com.wfj.learn.apiserver.base.cache;
 import com.wfj.learn.apiserver.base.exception.CustomException;
 import com.wfj.learn.apiserver.base.result.Result;
 import com.wfj.learn.apiserver.base.result.ResultCode;
+import com.wfj.learn.apiserver.base.security.JwtConst;
 import com.wfj.learn.apiserver.base.security.JwtUtils;
 import com.wfj.learn.apiserver.entity.User;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +54,36 @@ public class UserCache {
     }
 
     /**
+     * 登录成功,保存登录信息
+     *
+     * @param user  用户
+     * @param token token
+     * @return boolean
+     */
+    public boolean setUser(User user, String token) {
+
+        redisUtils.set(userTokenKey + user.getId(), token, JwtConst.EXPIRATION);
+
+        redisUtils.set(userInfoKey + user.getId(), user, JwtConst.EXPIRATION);
+
+        return true;
+    }
+
+    /**
+     * 退出
+     *
+     * @param token token
+     * @return
+     */
+    public boolean out(String token) {
+        Integer userId = getUserId(token);
+
+        redisUtils.del(userTokenKey + userId, userInfoKey + userId);
+
+        return true;
+    }
+
+    /**
      * 获取用户ID
      *
      * @param token token
@@ -77,4 +108,5 @@ public class UserCache {
 
         return user;
     }
+
 }

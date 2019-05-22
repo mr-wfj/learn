@@ -11,8 +11,10 @@ spring:
     time-zone: GMT+8
   cloud:
     consul:
+      enabled: false                    #是否启用
       host: localhost
       port: 8500
       discovery:
         service-name: apiServer         #注册到consul的服务名称
+
 
