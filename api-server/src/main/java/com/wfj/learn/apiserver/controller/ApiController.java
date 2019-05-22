@@ -10,12 +10,13 @@
  */
 package com.wfj.learn.apiserver.controller;
 
+import com.wfj.learn.apiserver.base.cache.RedisUtils;
 import com.wfj.learn.apiserver.base.result.Result;
-import com.wfj.learn.apiserver.base.utils.RedisUtils;
 import com.wfj.learn.apiserver.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,6 +33,7 @@ import java.util.stream.IntStream;
  * @since 1.0.0
  */
 @RestController
+@EnableCaching
 public class ApiController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

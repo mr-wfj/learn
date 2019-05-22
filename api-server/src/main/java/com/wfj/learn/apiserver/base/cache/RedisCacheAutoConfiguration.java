@@ -1,4 +1,4 @@
-package com.wfj.learn.apiserver.base.utils;
+package com.wfj.learn.apiserver.base.cache;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
@@ -13,6 +13,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 public class RedisCacheAutoConfiguration {
 
+    /**
+     * 操作key-value都是对象
+     *
+     * @param redisConnectionFactory LettuceConnectionFactory
+     * @return RedisTemplate<String, Object>
+     */
     @Bean
     public RedisTemplate<String, Object> redisCacheTemplate(LettuceConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();

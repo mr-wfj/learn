@@ -1,4 +1,4 @@
-package com.wfj.learn.apiserver.base.utils;
+package com.wfj.learn.apiserver.base.cache;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,6 +15,13 @@ public class RedisUtils {
 
     /**
      * 注入redisTemplate bean
+     * <p>
+     * Redis常见的五大数据类型：
+     * stringRedisTemplate.opsForValue();[String(字符串)]
+     * stringRedisTemplate.opsForList();[List(列表)]
+     * stringRedisTemplate.opsForSet();[Set(集合)]
+     * stringRedisTemplate.opsForHash();[Hash(散列)]
+     * stringRedisTemplate.opsForZSet();[ZSet(有序集合)]
      */
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;

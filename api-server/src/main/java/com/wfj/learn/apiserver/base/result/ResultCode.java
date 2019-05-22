@@ -30,6 +30,15 @@ public enum ResultCode {
      */
     UNAUTHORIZED(301, "认证失败"),
     /**
+     * 301:登录超时
+     */
+    TOKEN_TIME_OUT(301, "登录超时"),
+    /**
+     * 301:其他设备登录
+     */
+    OTHER_DEVICE_LOGIN(301, "其他设备登录"),
+
+    /**
      * 302:登陆失败，用户名或密码无效
      */
     LOGIN_ERROR(302, "登陆失败，用户名或密码无效"),
