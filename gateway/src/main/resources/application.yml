@@ -14,7 +14,7 @@ spring:
           uri: http://localhost:8080
           predicates:
             # - Path=/api/base/user/login;/api/base/version
-            - Path=/api/base/version->/api/base/user/login
+            - Path=/api/base/version||/api/base/user/login
           filters:
             - StripPrefix=1
             - IgnoreTestGlobalFilter        #在本路由启用跳过全局过滤器
