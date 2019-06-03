@@ -17,10 +17,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtUtils jwtUtils;
 
+    private int id = 1000000000;
 
     @Override
     public String login(String userName, String password) {
-        User user = User.builder().id(1000000000).userName("wfj").password("123456").mobile("18566217093").build();
+
+        id++;
+        
+        User user = User.builder().id(id).userName(userName).password(password).mobile("18566217093").build();
 
         String token = jwtUtils.generateToken(userName, user.getId(), user.getMobile());
         userCache.setUser(user, token);

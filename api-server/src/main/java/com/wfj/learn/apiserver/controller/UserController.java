@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -16,7 +18,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public Result login(String userName, String password) {
+    public Result login(String userName, String password, HttpServletRequest request) {
+        String userId = request.getHeader("userId");
+
         return Result.ok(userService.login(userName, password));
     }
 
