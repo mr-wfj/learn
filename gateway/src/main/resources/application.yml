@@ -10,19 +10,27 @@ spring:
         locator:
           enabled: false                    # 是否与服务注册于发现组件进行结合
       routes:
+        - id: no_filter
+          uri: http://localhost:8080
+          predicates:
+            # - Path=/api/base/user/login;/api/base/version
+            - Path=/api/base/version->/api/base/user/login
+          filters:
+            - StripPrefix=1
+            - IgnoreTestGlobalFilter        #在本路由启用跳过全局过滤器
         - id: jwt_gloabl_filter             # 我们自定义的路由 ID，保持唯一
-          uri: http://localhost:8080    # 目标服务地址
+          uri: http://localhost:8080        # 目标服务地址
           predicates:                       # 路由条件，Predicate 接受一个输入参数，返回一个布尔值结果。该接口包含多种默认方法来将Predicate 组合成其他复杂的逻辑（比如：与，或，非）
             - Path=/api/**
           filters:
             - StripPrefix=1                 # 去掉api
-        - id: no_filter
-          uri: http://localhost:8080
+            # - RewritePath=/api, /api/test  # 重写请求路径,访问localhost/api, 请求会转发到localhost:8001/app/test
+        - id: baidu
+          uri: http://baidu.com
           predicates:
-            - Path=/base/login
+            - Path=/baidu/
           filters:
             - StripPrefix=1
-            - IgnoreTestGlobalFilter      #在本路由启用跳过全局过滤器
 
   redis:
     database: 0                             # Redis数据库索引（默认为0）

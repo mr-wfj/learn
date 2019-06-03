@@ -141,8 +141,6 @@
     </dependencyManagement>
 
     <build>
-        <defaultGoal>compile</defaultGoal>
-        <finalName>page</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

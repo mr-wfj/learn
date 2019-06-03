@@ -39,6 +39,7 @@ public class JwtGlobalFilter implements GlobalFilter, Ordered {
         logger.info("JwtGlobalFilter ...");
         if (exchange.getAttribute(ATTRIBUTE_IGNORE_TEST_GLOBAL_FILTER) != null) {
             logger.info("跳过检测 ...");
+            return chain.filter(exchange);
         }
 
         ServerHttpRequest request = exchange.getRequest();
