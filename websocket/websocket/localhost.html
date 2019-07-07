@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--   
+功能：WebSocket使用示例  
+作者：http://wallimn.iteye.com  
+ -->
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>websocket测试</title>
+    <style type="text/css">
+        h3,
+        h4 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h3>WebSocket测试，在<span style="color:red">控制台</span>查看测试信息输出！</h3>
+
+    <div style="padding: 100px 100px;text-align: center;">
+        &nbsp;&nbsp;&nbsp;类型: <input type="text" id="type" value="im" /><br />
+        发送给: <input type="text" id="recipient" value="0" /><br />
+        &nbsp;&nbsp;&nbsp;消息: <input type="text" id="msg" value="你好" /><br />
+
+        <br />
+        <button onclick="send()">发送</button>
+
+        <br /><br />
+        <button onclick="error()">故障</button>
+    </div>
+
+
+    <script type="text/javascript">
+        var lockReconnect = false;//避免重复连接
+
+        var socket;
+        if (typeof (WebSocket) == "undefined") {
+            console.log("遗憾：您的浏览器不支持WebSocket");
+        } else {
+            console.log("恭喜：您的浏览器支持WebSocket");
+
+            //实现化WebSocket对象  
+            //指定要连接的服务器地址与端口建立连接   
+            //注意ws、wss使用不同的端口。我使用自签名的证书测试，  
+            //无法使用wss，浏览器打开WebSocket时报错  
+            //ws对应http、wss对应https。  
+            socket = new WebSocket("ws://localhost:8080/ws/connect");
+            //连接打开事件    
+            socket.onopen = function () {
+                console.log("Socket 已打开");
+                //socket.send("消息发送测试(From Client)");
+
+                var messageObj = { "type": "heartbeat", "id": uuid() };
+                socket.send(JSON.stringify(messageObj));
+            };
+            //收到消息事件    
+            socket.onmessage = function (msg) {
+                console.log(msg);
+
+                console.log(msg.data);
+            };
+            //连接关闭事件    
+            socket.onclose = function () {
+                console.log("Socket已关闭");
+                // 10秒后重新连接，实际效果：每10秒重连一次，直到连接成功
+                setTimeout(function () {
+                    connect(url);
+                }, 10000);
+            };
+            //发生了错误事件    
+            socket.onerror = function () {
+                alert("Socket发生了错误");
+            }
+
+            //窗口关闭时，关闭连接  
+            window.unload = function () {
+                socket.close();
+            };
+        }
+
+        function send() {
+            var type = document.getElementById("type").value;
+            var msg = document.getElementById("msg").value;
+            var recipient = document.getElementById("recipient").value;
+
+            var messageObj = { "type": type, "id": uuid(), "data": { "msg": msg, "recipient": recipient } };
+
+            socket.send(JSON.stringify(messageObj));
+        }
+
+        function error(){
+            socket = null; 
+        }
+
+        var intervalId = window.setInterval(function () {
+            var messageObj = { "type": "heartbeat", "id": uuid() };
+
+            socket.send(JSON.stringify(messageObj));
+        }, 15000);
+
+        function uuid() {
+            var s = [];
+            var hexDigits = "0123456789abcdef";
+            for (var i = 0; i < 36; i++) {
+                s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+            }
+            s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+            s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+            s[8] = s[13] = s[18] = s[23] = "-";
+
+            var uuid = s.join("");
+            return uuid;
+        }
+    </script>
+
+</body>
+
+</html>
