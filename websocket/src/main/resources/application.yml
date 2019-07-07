@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: websocket
+  profiles:
+    active: dev
+  jackson:
+    date-format:  yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    # \u4E0A\u4F20\u6587\u4EF6\u5927\u5C0F\u9650\u5236
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
