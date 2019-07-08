@@ -1,6 +1,6 @@
-package com.wfj.learn.websocket.Controller;
+package com.wfj.learn.websocket.controller;
 
-import com.wfj.learn.websocket.WebSocket.WebSocketServer;
+import com.wfj.learn.websocket.websocket.server.WebSocketServer;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/ws")
+@RequestMapping("/ws")
 public class WebSocketController {
 
 

@@ -1,4 +1,4 @@
-package com.wfj.learn.websocket.WebSocket.consts;
+package com.wfj.learn.websocket.websocket.consts;
 
 /**
  * @Author: WFJ
@@ -12,7 +12,7 @@ public final class SocketTypeConst {
     /**
      * 心跳
      */
-    public static final String HEARTBEAT = "heartbeat";
+    public static final String HEARTBEAT = "HEARTBEAT";
     /**
      * IM - 聊天
      */

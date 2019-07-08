@@ -37,20 +37,15 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- security -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
-
-        <!-- consul -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+        <!-- consul 服务注册发现-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+        <!-- 健康监控 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- redis -->
@@ -68,11 +63,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
         </dependency>
-
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -100,18 +90,6 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.3</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>1.18.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-core</artifactId>
-            <version>1.18.1</version>
         </dependency>
 
         <dependency>
