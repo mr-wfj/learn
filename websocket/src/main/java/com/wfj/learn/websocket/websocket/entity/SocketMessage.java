@@ -1,4 +1,4 @@
-package com.wfj.learn.websocket.WebSocket;
+package com.wfj.learn.websocket.websocket.entity;
 
 import lombok.Data;
 
