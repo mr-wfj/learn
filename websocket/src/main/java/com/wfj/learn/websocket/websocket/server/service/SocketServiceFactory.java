@@ -13,10 +13,10 @@ public class SocketServiceFactory {
      * SocketService 实现类-会自动注入到context
      */
     @Autowired
-    private Map<String, com.wfj.learn.websocket.websocket.server.service.SocketService> context = new ConcurrentHashMap<>();
+    private Map<String, SocketService> context = new ConcurrentHashMap<>();
 
-    public com.wfj.learn.websocket.websocket.server.service.SocketService getcontext(String component) {
-        com.wfj.learn.websocket.websocket.server.service.SocketService socketService = context.get(component);
+    public SocketService getcontext(String component) {
+        SocketService socketService = context.get(component);
         if (socketService == null) {
             throw new RuntimeException("no socketService defined");
         }
