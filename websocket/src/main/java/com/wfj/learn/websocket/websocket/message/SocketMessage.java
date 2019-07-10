@@ -1,11 +1,9 @@
 package com.wfj.learn.websocket.websocket.message;
 
-import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
-public class SocketMessage<T> {
+public class SocketMessage {
 
     /**
      * 消息ID;
@@ -20,11 +18,21 @@ public class SocketMessage<T> {
     /**
      * 数据
      */
-    private T data;
+    private Object data;
 
-    public SocketMessage(String tye, T data) {
+    public SocketMessage() {
+
+    }
+
+    public SocketMessage(String id, String tye, Object data) {
+        this.id = id;
         this.type = tye;
         this.data = data;
+    }
+
+    public SocketMessage(String id, String tye) {
+        this.id = id;
+        this.type = tye;
     }
 
     @Override

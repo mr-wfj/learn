@@ -26,7 +26,7 @@ public class WebSocketClientController {
     @PostMapping("/ok")
     String ok(String message) {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        SocketMessage socketMessage = SocketMessage.builder().id(uuid).type(SocketTypeConst.HEARTBEAT).data(message).build();
+        SocketMessage socketMessage = new SocketMessage(uuid, SocketTypeConst.HEARTBEAT, message);
         scoketClient.send(socketMessage);
         return "ok";
     }

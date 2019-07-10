@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 
 @Component
-public class WebSocketConfig {
+public class WebSocketClientConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebSocketConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketClientConfig.class);
 
     @Bean
     public WebSocketClient webSocketClient() {
